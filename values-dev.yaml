@@ -1,0 +1,23 @@
+# https://github.com/apache/superset/blob/master/helm/superset/values.yaml
+
+# If you find it difficult to configure the ingress, simply set the enabled option to false.
+# you can access it via port-forward
+# `kubectl port-forward service/superset 8088:8088 --namespace apache-superset-dev`
+
+# remember to update the hosts name with your defined domain
+
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+  path: /
+  pathType: Prefix
+  hosts:
+    - <superset.dev.example.com>
+  tls:
+    - secretName: superset-dev-tls
+      hosts:
+        - <superset.dev.example.com>
+  extraHostsRaw: []
